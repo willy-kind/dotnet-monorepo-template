@@ -3,4 +3,8 @@
     <Project Path="src/Example.Api/Example.Api.csproj" />
     <Project Path="src/Example.Job/Example.Job.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Example.Api.Tests/Example.Api.Tests.csproj" />
+    <Project Path="tests/Example.Job.Tests/Example.Job.Tests.csproj" />
+  </Folder>
 </Solution>

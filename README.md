@@ -20,6 +20,10 @@ and enables the conventional-commits git hook.
 src/
   Example.Api/            minimal web API
   Example.Job/            background job (generic host)
+tests/
+  Example.Api.Tests/      xUnit v3 tests for Example.Api
+  Example.Job.Tests/      xUnit v3 tests for Example.Job
+  Shared/                 FakeHttpHandler and ArchitectureTests, linked into every test project
 Directory.Build.props     shared MSBuild settings (TFM, nullable, analyzers, warnings as errors)
 Directory.Packages.props  central package versions
 global.json               SDK version pin
@@ -38,16 +42,19 @@ dotnet run --project src/Example.Job           # run the job
 ## Adding a project
 
 ```sh
-dotnet new classlib -n My.Lib -o src/My.Lib
-dotnet new xunit    -n My.Lib.Tests -o tests/My.Lib.Tests
-dotnet sln add src/My.Lib tests/My.Lib.Tests
-dotnet add tests/My.Lib.Tests reference src/My.Lib
+dotnet new web     -n My.Api -o src/My.Api                 # an API
+dotnet new console -n My.Job -o src/My.Job                 # a job (also reference Microsoft.Extensions.Hosting)
+dotnet new console -n My.Api.Tests -o tests/My.Api.Tests   # its test project
+dotnet sln add src/My.Api tests/My.Api.Tests
+dotnet add tests/My.Api.Tests reference src/My.Api
 ```
 
 Then remove `TargetFramework`, `Nullable`, `ImplicitUsings` and package `Version`
-attributes from the new csproj files: they come from `Directory.Build.props` and
-`Directory.Packages.props`. Projects ending in `.Tests` are marked as test projects
-automatically.
+attributes from the new csproj files and delete the test project's `Program.cs`:
+they come from `Directory.Build.props` and `Directory.Packages.props`. Projects
+ending in `.Tests` automatically become xUnit v3 test projects and get the shared
+`FakeHttpHandler` and `ArchitectureTests`. An API's test project also references
+`Microsoft.AspNetCore.Mvc.Testing`.
 
 ## Commits
 

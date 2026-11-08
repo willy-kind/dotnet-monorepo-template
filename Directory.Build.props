@@ -17,6 +17,15 @@
     <OutputType>Exe</OutputType>
   </PropertyGroup>
 
+  <!-- Test projects: shared packages, plus the shared FakeHttpHandler and ArchitectureTests from tests/Shared -->
+  <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
+    <PackageReference Include="coverlet.MTP" />
+    <PackageReference Include="TngTech.ArchUnitNET.xUnitV3" />
+    <PackageReference Include="xunit.v3" />
+    <Using Include="Xunit" />
+    <Compile Include="$(MSBuildThisFileDirectory)tests/Shared/*.cs" Link="Shared/%(Filename)%(Extension)" />
+  </ItemGroup>
+
   <!-- Source projects: banned APIs, and internals visible to the matching test project -->
   <ItemGroup Condition="!$(MSBuildProjectName.EndsWith('.Tests'))">
     <PackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" PrivateAssets="all" />
