@@ -37,7 +37,7 @@ tests/<App>.Tests/                # mirrors src/<App>
 
 While iterating, run `dotnet format`, `dotnet build` and `dotnet test` scoped to your app's project.
 
-`ArchitectureTests` and `BannedSymbols.txt` enforce the slice and integration rules below. When one fails, fix the code. Never change, skip or weaken a check, its config or its test, and never suppress a warning (`#pragma`, `SuppressMessage`, `NoWarn`).
+`ArchitectureTests` and `BannedSymbols.txt` enforce the slice and integration rules below. When one fails, fix the code. Never change, skip or weaken a check, its config or its test, and never suppress a warning (`#pragma`, `SuppressMessage`, `NoWarn`). The one exception is the existing `NoWarn` for CS1591 in `Directory.Build.props`: XML docs are not required.
 
 Don't change `global.json`, `Directory.Build.props`, `Directory.Packages.props`, `.editorconfig` or `BannedSymbols.txt` unless asked. Adding a package version is the one exception, and only after the package is approved.
 
@@ -57,7 +57,7 @@ Don't change `global.json`, `Directory.Build.props`, `Directory.Packages.props`,
 
 ## APIs
 
-New endpoint: `dotnet new slice-api`. Follow `src/<ExampleApi>/Features/Orders/CreateOrder.cs`.
+New endpoint: follow `src/Example.Api/Features/Orders/CreateOrder.cs`.
 
 | Situation | Response |
 |---|---|
@@ -71,13 +71,13 @@ Around integration calls, catch only `HttpRequestException` and `TaskCanceledExc
 
 ## Jobs
 
-New job: `dotnet new slice-job`. Follow `src/<ExampleWorker>/Features/Customers/SyncCustomers.cs`.
+New job: follow `src/Example.Job/Features/Customers/SyncCustomers.cs`.
 
 `RunOnceAsync` does one run and lets integration failures propagate. `ExecuteAsync` only loops: call `RunOnceAsync`, log any exception, wait for the next interval. That loop is the only place `catch (Exception)` is allowed. The next interval is the retry.
 
 ## Tests
 
-New test: `dotnet new slice-api-test` or `slice-job-test`. Follow the tests next to the examples above.
+New test: follow `tests/Example.Api.Tests/Features/Orders/CreateOrderTests.cs` or `tests/Example.Job.Tests/Features/Customers/SyncCustomersTests.cs`.
 
 Test slices through their real entry point: HTTP for APIs, `RunOnceAsync` for jobs, both via `TestApp`. Never test a handler directly or with mocks. Per slice:
 
@@ -87,7 +87,7 @@ Test slices through their real entry point: HTTP for APIs, `RunOnceAsync` for jo
 
 Usually 2 to 4 tests; more than 6 means logic should move into a `[Theory]`. Don't test framework behaviour, DI, DTOs, one-line mappings or logging.
 
-Tests must pass with no network. Fake only the outside world: `FakeHttpHandler` (`Respond`, `Throw`, `Requests`) for HTTP, hand-written fakes in `TestApp` for anything else. A new integration needs one `FakeHttpHandler` property in `TestApp`.
+Tests must pass with no network. Fake only the outside world: `FakeHttpHandler` (`Respond`, `Throw`, `Requests`) for HTTP, hand-written fakes in `TestApp` for anything else. A new integration needs one `FakeHttpHandler` property in `TestApp` and, in a job's `TestApp`, its `Add<Name>Client` call and each new job.
 
 ## Done
 
