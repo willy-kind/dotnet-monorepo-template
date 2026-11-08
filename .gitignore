@@ -22,8 +22,6 @@ BenchmarkDotNet.Artifacts/
 .env
 .env.*
 !.env.example
-appsettings.Local.json
-appsettings.*.Local.json
 secrets.json
 *.pfx
 *.publishsettings
