@@ -53,7 +53,7 @@ Don't change `global.json`, `Directory.Build.props`, `Directory.Packages.props`,
 | Talking to an external system | `Integrations/` |
 | Anything else | `Common/` |
 
-**Integrations are thin.** A typed client, DTOs that match the external API as-is, options, auth (with token caching) and an `Add<Name>Client` registration. Return `null` for statuses the API uses meaningfully (e.g. 404), `EnsureSuccessStatusCode()` otherwise. No logic, mapping, data caching, orchestration or retries, and no wrapper interfaces.
+**Integrations are thin.** A typed client, DTOs that match the external API as-is, options, auth (with token caching) and an `Add<Name>Client` registration. Return `null` for statuses the API uses meaningfully (e.g. 404). When such a status has a body the caller needs (e.g. a 422 listing errors), return that body as its DTO and let the slice decide what it means. `EnsureSuccessStatusCode()` otherwise. No logic, mapping, data caching, orchestration or retries, and no wrapper interfaces.
 
 ## APIs
 

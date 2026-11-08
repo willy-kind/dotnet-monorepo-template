@@ -5,6 +5,7 @@ using Example.Testing;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Time.Testing;
 
 namespace Example.Job.Tests;
 
@@ -30,7 +31,7 @@ public sealed class TestApp : IAsyncDisposable
 
         var services = new ServiceCollection()
             .AddSingleton<IConfiguration>(configuration)
-            .AddSingleton(TimeProvider.System)
+            .AddSingleton<TimeProvider>(Time)
             .AddLogging();
 
         services.AddCrmClient().AddHttpClient<CrmClient>().ConfigurePrimaryHttpMessageHandler(() => Crm);
@@ -41,6 +42,9 @@ public sealed class TestApp : IAsyncDisposable
 
         _services = services.BuildServiceProvider(new ServiceProviderOptions { ValidateOnBuild = true, ValidateScopes = true });
     }
+
+    /// <summary>The clock jobs see. Starts at a fixed instant; move it with <c>Advance</c> or <c>SetUtcNow</c>.</summary>
+    public FakeTimeProvider Time { get; } = new(new DateTimeOffset(2026, 1, 1, 12, 0, 0, TimeSpan.Zero));
 
     public FakeHttpHandler Crm { get; } = new();
 

@@ -38,7 +38,8 @@ public sealed class FakeHttpHandler : HttpMessageHandler
         Func<HttpResponseMessage> outcome;
         lock (_lock)
         {
-            _requests.Add(new FakeHttpRequest(request.Method, request.RequestUri!, body));
+            var headers = request.Headers.ToDictionary(header => header.Key, header => header.Value.ToArray(), StringComparer.OrdinalIgnoreCase);
+            _requests.Add(new FakeHttpRequest(request.Method, request.RequestUri!, headers, body));
             outcome = _outcomes.Count > 1 ? _outcomes.Dequeue()
                 : _outcomes.TryPeek(out var last) ? last
                 : throw new InvalidOperationException($"No outcome set up for {request.Method} {request.RequestUri}. Call Respond or Throw first.");
@@ -58,4 +59,8 @@ public sealed class FakeHttpHandler : HttpMessageHandler
     }
 }
 
-public sealed record FakeHttpRequest(HttpMethod Method, Uri Uri, string? Body);
+/// <param name="Method"></param>
+
+/// <param name="Uri"></param>/// <param name="Headers">Request headers, including the client's default headers (e.g. an API key), matched case-insensitively.</param>
+/// <param name="Body"></param>
+public sealed record FakeHttpRequest(HttpMethod Method, Uri Uri, IReadOnlyDictionary<string, string[]> Headers, string? Body);
