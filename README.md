@@ -18,10 +18,8 @@ and enables the conventional-commits git hook.
 ```
 .dev/                     flake.nix dev shell, githooks
 src/
-  Example.Core/           class library
-  Example.Api/            minimal web API (references Core)
-tests/
-  Example.Core.Tests/     xunit tests for Core
+  Example.Api/            minimal web API
+  Example.Job/            background job (generic host)
 Directory.Build.props     shared MSBuild settings (TFM, nullable, analyzers, warnings as errors)
 Directory.Packages.props  central package versions
 global.json               SDK version pin
@@ -33,7 +31,8 @@ MonoRepo.slnx             solution
 ```sh
 dotnet build                                   # build everything
 dotnet test                                    # run all tests
-dotnet run --project src/Example.Api           # run the API, try GET /hello/{name}
+dotnet run --project src/Example.Api           # run the API, try GET /
+dotnet run --project src/Example.Job           # run the job
 ```
 
 ## Adding a project
