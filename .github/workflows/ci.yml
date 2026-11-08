@@ -67,7 +67,7 @@ jobs:
           failed=0
           for sha in $(git rev-list "$BASE..$HEAD"); do
             git log -1 --format=%B "$sha" > "$RUNNER_TEMP/msg"
-            if ! sh .dev/githooks/commit-msg "$RUNNER_TEMP/msg"; then
+            if ! sh .githooks/commit-msg "$RUNNER_TEMP/msg"; then
               echo "::error::Commit $sha does not follow Conventional Commits"
               failed=1
             fi

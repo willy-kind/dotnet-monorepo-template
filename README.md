@@ -5,18 +5,20 @@ Template for .NET mono repos, built on the `examplerepo` setup (direnv + nix fla
 ## Setup
 
 1. Copy this directory and rename it.
-2. Replace `MonoDotnet` in `.dev/flake.nix` and rename `MonoRepo.slnx`.
+2. Replace `MonoDotnet` in `nix/flake.nix` and rename `MonoRepo.slnx`.
 3. Rename or replace the `Example.*` projects.
 4. `git init && git add -A` (flakes only see files tracked by git).
 5. `direnv allow`
 
-The dev shell provides the .NET 10 SDK (`dotnet-sdk_10` from nixpkgs), sops and age,
-and enables the conventional-commits git hook.
+The dev shell provides the .NET 10 SDK (`dotnet-sdk_10` from nixpkgs) and enables
+the conventional-commits git hook.
 
 ## Layout
 
 ```
-.dev/                     flake.nix dev shell, githooks
+.githooks/                commit-msg hook, used locally and by CI
+.github/workflows/        CI
+nix/                      Nix dev shell (flake), for local development only
 src/
   Example.Api/            minimal web API
   Example.Job/            background job (generic host)
@@ -59,8 +61,9 @@ ending in `.Tests` automatically become xUnit v3 test projects and get the share
 ## Commits
 
 Commits must follow [Conventional Commits](https://www.conventionalcommits.org/),
-e.g. `feat(api): add hello endpoint`. Enforced by `.dev/githooks/commit-msg`
-locally, and by CI for every commit in a pull request.
+e.g. `feat(api): add hello endpoint`. Enforced by `.githooks/commit-msg`
+locally, and by CI for every commit in a pull request. The Nix dev shell turns the
+hook on; without it, run `git config core.hooksPath .githooks` once.
 
 ## CI
 

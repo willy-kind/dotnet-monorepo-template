@@ -16,8 +16,6 @@
           buildInputs = with pkgs; [
             bash-completion
             git
-            sops
-            age
             dotnet
             # add project specific tools here
           ];
@@ -37,7 +35,7 @@
             complete -f -F _dotnet_bash_complete dotnet
 
             # use the repo's git hooks (conventional commits)
-            git config core.hooksPath .dev/githooks
+            git config core.hooksPath .githooks
 
             export DEVENV="MonoDotnet"
             echo "Development environment is ready 󱓟 "
