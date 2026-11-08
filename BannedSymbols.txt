@@ -1,0 +1,7 @@
+M:System.Reflection.Assembly.GetTypes;Register slices explicitly in Program.cs instead of scanning assemblies.
+M:System.Reflection.Assembly.GetExportedTypes;Register slices explicitly in Program.cs instead of scanning assemblies.
+N:MediatR;Slices handle their own requests. Don't use a mediator.
+N:AutoMapper;Map by hand inside the slice.
+M:System.Net.Http.HttpClient.#ctor;Use a typed client registered with Add<Name>Client (IHttpClientFactory).
+M:System.Net.Http.HttpClient.#ctor(System.Net.Http.HttpMessageHandler);Use a typed client registered with Add<Name>Client (IHttpClientFactory).
+M:System.Net.Http.HttpClient.#ctor(System.Net.Http.HttpMessageHandler,System.Boolean);Use a typed client registered with Add<Name>Client (IHttpClientFactory).
