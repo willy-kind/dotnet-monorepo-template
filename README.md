@@ -59,4 +59,11 @@ ending in `.Tests` automatically become xUnit v3 test projects and get the share
 ## Commits
 
 Commits must follow [Conventional Commits](https://www.conventionalcommits.org/),
-e.g. `feat(api): add hello endpoint`. Enforced by `.dev/githooks/commit-msg`.
+e.g. `feat(api): add hello endpoint`. Enforced by `.dev/githooks/commit-msg`
+locally, and by CI for every commit in a pull request.
+
+## CI
+
+`.github/workflows/ci.yml` runs on pushes to `main`, pull requests and weekly:
+`dotnet format --verify-no-changes`, `dotnet build`, a vulnerable-package check,
+and `dotnet test` with coverage (Cobertura, uploaded as the `coverage` artifact).
