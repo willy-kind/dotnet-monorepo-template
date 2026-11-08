@@ -167,8 +167,6 @@ csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimenta
 
 # Remove unnecessary usings (needs GenerateDocumentationFile in Directory.Build.props)
 dotnet_diagnostic.IDE0005.severity = warning
-# Missing XML docs: GenerateDocumentationFile is only on for IDE0005, not to require docs
-dotnet_diagnostic.CS1591.severity = none
 # Unnecessary casts, unused private members, unreachable code
 dotnet_diagnostic.IDE0004.severity = warning
 dotnet_diagnostic.IDE0051.severity = warning

@@ -35,7 +35,7 @@ MonoRepo.slnx             solution
 ```sh
 dotnet build                                   # build everything
 dotnet test                                    # run all tests
-dotnet run --project src/Example.Api           # run the API, try GET /
+dotnet run --project src/Example.Api           # run the API
 dotnet run --project src/Example.Job           # run the job
 ```
 

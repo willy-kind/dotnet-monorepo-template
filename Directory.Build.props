@@ -8,8 +8,10 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AnalysisLevel>latest-recommended</AnalysisLevel>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <!-- Needed for IDE0005 (unused usings) in the build; CS1591 is off in .editorconfig -->
+    <!-- Needed for IDE0005 (unused usings) in the build. It is not there to require XML docs, so
+         CS1591 (missing XML comment) is off here, where every editor's language server sees it too. -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
 
   <!-- Test projects -->

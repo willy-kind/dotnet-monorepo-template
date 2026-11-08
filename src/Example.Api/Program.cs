@@ -1,6 +1,10 @@
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddProblemDetails();
+
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+app.UseExceptionHandler();
+app.UseStatusCodePages();
 
 app.Run();
