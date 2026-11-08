@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Simple regex for conventional commits
+conventional_regex="^(feat|fix|docs|style|refactor|perf|test|chore)(\([a-z0-9\-]+\))?: .{1,}"
+
+commit_message=$(cat "$1")
+
+if ! echo "$commit_message" | grep -qE "$conventional_regex"; then
+  echo " Commit message does not follow Conventional Commits format."
+  echo "Example: 'feat(login): add user authentication'"
+  exit 1
+fi
