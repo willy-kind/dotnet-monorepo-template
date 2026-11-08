@@ -45,18 +45,22 @@ public class ArchitectureTests
     [InlineData(Common)]
     [InlineData(Domain)]
     [InlineData(Integrations)]
-    public void SharedCodeNeverReferencesFeatures(string shared) =>
+    public void SharedCodeNeverReferencesFeatures(string shared)
+    {
         Types().That().ResideInNamespaceMatching(shared)
             .Should().NotDependOnAny(Types().That().ResideInNamespaceMatching(Features))
             .WithoutRequiringPositiveResults()
             .Check(Architecture);
+    }
 
     [Fact]
-    public void IntegrationsNeverReferenceDomain() =>
+    public void IntegrationsNeverReferenceDomain()
+    {
         Types().That().ResideInNamespaceMatching(Integrations)
             .Should().NotDependOnAny(Types().That().ResideInNamespaceMatching(Domain))
             .WithoutRequiringPositiveResults()
             .Check(Architecture);
+    }
 
     [Fact]
     public void EverySliceHasATestClass()
@@ -90,8 +94,7 @@ public class ArchitectureTests
     }
 
     // The top-level slice class a type belongs to, or null when it isn't in Features.
-    private static string? SliceOf(IType type) =>
-        Regex.IsMatch(type.Namespace.FullName, Features) ? type.FullName.Split('+', '/')[0] : null;
+    private static string? SliceOf(IType type) => Regex.IsMatch(type.Namespace.FullName, Features) ? type.FullName.Split('+', '/')[0] : null;
 
     // Example.Api.Features.Orders.CreateOrder -> Example.Api.Tests.Features.Orders.CreateOrderTests
     private static string ExpectedTestClass(Type slice)

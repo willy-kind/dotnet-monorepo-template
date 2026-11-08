@@ -26,12 +26,10 @@ public sealed class FakeHttpHandler : HttpMessageHandler
     }
 
     /// <summary>Respond with <paramref name="status"/> and, if given, <paramref name="body"/> as JSON.</summary>
-    public FakeHttpHandler Respond(HttpStatusCode status, object? body = null) =>
-        Enqueue(() => new HttpResponseMessage(status) { Content = body is null ? null : JsonContent.Create(body) });
+    public FakeHttpHandler Respond(HttpStatusCode status, object? body = null) => Enqueue(() => new HttpResponseMessage(status) { Content = body is null ? null : JsonContent.Create(body) });
 
     /// <summary>Throw instead of responding, e.g. <see cref="HttpRequestException"/> or <see cref="TaskCanceledException"/> for a timeout.</summary>
-    public FakeHttpHandler Throw(Exception exception) =>
-        Enqueue(() => throw exception);
+    public FakeHttpHandler Throw(Exception exception) => Enqueue(() => throw exception);
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
